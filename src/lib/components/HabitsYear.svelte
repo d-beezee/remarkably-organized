@@ -29,6 +29,11 @@
 	const numDays = $derived(
 		Math.floor((yearEnd.getTime() - yearStart.getTime()) / 86400000) + 1,
 	);
+	const firstMonth = $derived(
+		groupBy === 'month'
+			? new Date(yearStart.getTime() + 86400000 * 14)
+			: new Date(yearStart.getTime() + 86400000 * 7),
+	);
 </script>
 
 {#if groupBy === 'week'}
@@ -62,9 +67,10 @@
 
 {#if groupBy === 'month'}
 	<div class="year-by-month">
-		{#each new Array(12) as _, month}
+		{#each new Array(12 - firstMonth.getMonth()) as _, month}
+			{@const actual = month + firstMonth.getMonth()}
 			<div class="month" style:grid-column={month + 1}>
-				{new Date(Date.UTC(2000, month)).toLocaleString('default', {
+				{new Date(Date.UTC(2000, actual)).toLocaleString('default', {
 					month: 'short',
 					timeZone: 'UTC',
 				})}
@@ -178,13 +184,13 @@
 
 			.weekday {
 				font-size: 0.5em;
-				opacity: 1;
+				opacity: 0.7;
 				font-weight: var(--font-weight-normal);
 			}
 			.date {
 				font-size: 1em;
 				font-weight: var(--font-weight-normal);
-				opacity: 0.9;
+				opacity: 0.7;
 				line-height: 0.7em;
 				:global(.ordinal) {
 					font-size: 0.45em;
