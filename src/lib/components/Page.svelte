@@ -1,16 +1,17 @@
 <script lang="ts">
 	import type { Collection, PlannerSettings, Timeframe } from '$lib';
-	import Grid from './Grid.svelte';
+	import AgendaDay from './AgendaDay.svelte';
+	import AgendaDayDotted from './AgendaDayDotted.svelte';
+	import AgendaWeek from './AgendaWeek.svelte';
 	import CalendarMonth from './CalendarMonth.svelte';
 	import CalendarQuarter from './CalendarQuarter.svelte';
 	import CalendarYear from './CalendarYear.svelte';
-	import NotesQuarter from './NotesQuarter.svelte';
-	import NotesYear from './NotesYear.svelte';
-	import NotesWeek from './NotesWeek.svelte';
-	import NotesDay from './NotesDay.svelte';
+	import Grid from './Grid.svelte';
 	import HabitsYear from './HabitsYear.svelte';
-	import AgendaWeek from './AgendaWeek.svelte';
-	import AgendaDay from './AgendaDay.svelte';
+	import NotesDay from './NotesDay.svelte';
+	import NotesQuarter from './NotesQuarter.svelte';
+	import NotesWeek from './NotesWeek.svelte';
+	import NotesYear from './NotesYear.svelte';
 	import TaskProgress from './TaskProgress.svelte';
 
 	let {
@@ -65,6 +66,8 @@
 		<AgendaWeek {timeframe} startWeekOnSunday={settings.date.startWeekOnSunday} />
 	{:else if display === 'agenda-day'}
 		<AgendaDay />
+	{:else if display === 'agenda-day-dotted'}
+		<AgendaDayDotted />
 	{:else if display === 'notes-quarter'}
 		<NotesQuarter
 			months={settings.months.filter(

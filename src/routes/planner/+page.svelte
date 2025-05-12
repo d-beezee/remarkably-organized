@@ -1,20 +1,20 @@
 <script lang="ts">
-	import { page } from '$app/state';
+	import { browser } from '$app/environment';
 	import { replaceState } from '$app/navigation';
+	import { page } from '$app/state';
+	import Toast from '$lib/components/Toast.svelte';
 	import { slide } from 'svelte/transition';
-	import SettingsIcon from '~icons/fa/cog';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
+	import SettingsIcon from '~icons/fa/cog';
+	import { fonts, getGoogleFontURL } from '../fonts/fonts';
+	import CollectionPages from './CollectionPages.svelte';
 	import CoverPage from './CoverPage.svelte';
+	import DayPage from './DayPage.svelte';
+	import HelpModal from './HelpModal.svelte';
 	import MonthPage from './MonthPage.svelte';
-	import YearPage from './YearPage.svelte';
 	import QuarterPage from './QuarterPage.svelte';
 	import WeekPage from './WeekPage.svelte';
-	import DayPage from './DayPage.svelte';
-	import CollectionPages from './CollectionPages.svelte';
-	import HelpModal from './HelpModal.svelte';
-	import { browser } from '$app/environment';
-	import { fonts, getGoogleFontURL } from '../fonts/fonts';
-	import Toast from '$lib/components/Toast.svelte';
+	import YearPage from './YearPage.svelte';
 	let { data } = $props();
 	const { settings } = data;
 
@@ -39,6 +39,7 @@
 		{ name: 'Calendar', value: 'calendar-month' },
 		{ name: 'Calendar - With Notes', value: 'calendar-month-with-notes' },
 		{ name: 'Agenda - Daily', value: 'agenda-day' },
+		{ name: 'Agenda - Daily Dotted	', value: 'agenda-day-dotted' },
 		{ name: 'Agenda - Weekly', value: 'agenda-week' },
 		{ name: 'Notes - Yearly', value: 'notes-year' },
 		{ name: 'Notes - Quarterly', value: 'notes-quarter' },
