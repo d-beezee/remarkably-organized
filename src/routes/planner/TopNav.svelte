@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatToString, PlannerSettings, type Timeframe } from '$lib';
+	import { PlannerSettings, type Timeframe } from '$lib';
 	import HomeIcon from '~icons/material-symbols-light/home-rounded';
 	import { getFontInfo } from '../fonts/fonts';
 
@@ -162,16 +162,9 @@
 				<li>
 					<a href="#{timeframe.year}-{timeframe.month}-{timeframe.daySinceMonth}">
 						{timeframe.start.toLocaleString('default', {
-							weekday: 'short',
-							timeZone: 'UTC',
-						})},
-						{timeframe.start.toLocaleString('default', {
-							month: !breadcrumbs.length ? 'long' : 'short',
-							timeZone: 'UTC',
-						})}
-						{@html formatToString(timeframe.daySinceMonth, {
-							type: 'ordinal',
-							html: true,
+							weekday: 'long',
+							month: 'long',
+							day: 'numeric',
 						})}
 					</a>
 				</li>
