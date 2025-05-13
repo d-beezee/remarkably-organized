@@ -40,7 +40,9 @@ export type PageTemplate =
 	| 'notes-day'
 	| 'habit-year-by-week'
 	| 'habit-year-by-month'
-	| 'links-page';
+	| 'links-page'
+	| 'school-timetable'
+	| 'accounting';
 
 export interface Collection {
 	/** The URL friendly slug used to link & id the collection */

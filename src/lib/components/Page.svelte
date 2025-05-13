@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Collection, PlannerSettings, Timeframe } from '$lib';
+	import Accounting from './Accounting.svelte';
 	import AgendaDay from './AgendaDay.svelte';
 	import AgendaDayDotted from './AgendaDayDotted.svelte';
 	import AgendaWeek from './AgendaWeek.svelte';
@@ -13,6 +14,7 @@
 	import NotesQuarter from './NotesQuarter.svelte';
 	import NotesWeek from './NotesWeek.svelte';
 	import NotesYear from './NotesYear.svelte';
+	import SchoolTimetable from './SchoolTimetable.svelte';
 	import TaskProgress from './TaskProgress.svelte';
 
 	let {
@@ -112,6 +114,10 @@
 			groupBy="month" />
 	{:else if display === 'links-page'}
 		<LinksPage {settings} />
+	{:else if display === 'school-timetable'}
+		<SchoolTimetable {settings} />
+	{:else if display === 'accounting'}
+		<Accounting />
 	{:else if display.startsWith('lined')}
 		<Grid {display} columns={cols} lines={numLines} {aspectRatio} />
 	{:else if display.startsWith('numbered')}
