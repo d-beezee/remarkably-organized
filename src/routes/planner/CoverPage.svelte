@@ -123,6 +123,17 @@
 				{/each}
 			</div>
 		{/if}
+
+		{#if !settings.linksPage.disable && settings.linksPages.length > 0}
+			<div class="links pagelinks">
+				{#each settings.linksPages as linkpage, i (linkpage.id)}
+					<a href="#{linkpage.id}">{linkpage.icon} {linkpage.name}</a>
+					{#if i !== settings.linksPages.length - 1}
+						<span class="separator">/</span>
+					{/if}
+				{/each}
+			</div>
+		{/if}
 	</header>
 	{#if settings.coverPage.name || settings.coverPage.email}
 		<footer>
@@ -195,6 +206,10 @@
 			font-weight: var(--font-weight-bold);
 			margin: -0.5rem 0;
 			font-size: 1.5em;
+		}
+
+		&.pagelinks {
+			margin-top: 0.2rem;
 		}
 	}
 	h1 {
