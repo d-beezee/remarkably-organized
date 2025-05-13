@@ -1,13 +1,13 @@
 import {
 	getFirstDayOfWeek,
 	getUTCDate,
-	objectDiff,
-	type Collection,
-	type CalendarEvent,
 	getWeek,
+	objectDiff,
+	type CalendarEvent,
+	type Collection,
 } from '$lib';
 import { toast } from '$lib/components/toast.state.svelte';
-import type { PageTemplate } from './collection';
+import type { LinksPage, PageTemplate } from './collection';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type DeepPartial<T> = T extends { [key: string]: any }
@@ -176,6 +176,29 @@ export class PlannerSettings {
 		darkBackground = $state(true);
 		font = $state('Bebas Neue');
 	})();
+
+	/** Settings for changing the links page display */
+	readonly linksPage = new (class LinksPageSettings {
+		disable = $state(false);
+		size = $state(0.5);
+	})();
+
+	linksPages = $state([
+		{
+			id: 'page-1',
+			name: 'Page 1',
+			type: 'dotted',
+			icon: '§',
+			numPages: 1,
+		},
+		{
+			id: 'page-2',
+			name: 'Page 2',
+			type: 'dotted',
+			icon: '§',
+			numPages: 1,
+		},
+	] as LinksPage[]);
 
 	/** Settings for changing how the year pages should work */
 	readonly yearPage = new (class YearPageSettings {
@@ -529,6 +552,9 @@ export class PlannerSettings {
 				notePagesTemplate: this.yearPage.notePagesTemplate,
 				notePagesAmount: this.yearPage.notePagesAmount,
 			},
+			linksPage: {
+				disable: this.linksPage.disable,
+			},
 			quarterPage: {
 				disable: this.quarterPage.disable,
 				notePagesTemplate: this.quarterPage.notePagesTemplate,
@@ -558,6 +584,9 @@ export class PlannerSettings {
 			},
 			collections: this.collections.map((collection) => ({
 				...collection,
+			})),
+			linksPages: this.linksPages.map((link) => ({
+				...link,
 			})),
 			calendars: this.calendars.map((calendar) => {
 				return {
@@ -632,6 +661,22 @@ export class PlannerSettings {
 		if (state?.coverPage?.font !== undefined) this.coverPage.font = state.coverPage.font;
 		if (!state?.coverPage?.font && state?.design?.fontDisplay)
 			this.coverPage.font = state.design.fontDisplay;
+
+		// Links Page Settings
+		if (state?.linksPage?.disable !== undefined)
+			this.linksPage.disable = state.linksPage.disable;
+		if (!state?.linksPage?.disable) {
+			// Links Page
+			if (state?.linksPages !== undefined) {
+				this.linksPages = state.linksPages.filter(Boolean).map((link, i) => ({
+					id: link?.id || `page-${i + 1}`,
+					name: link?.name || `Page ${i + 1}`,
+					numPages: link?.numPages || 1,
+					icon: link?.icon || '§',
+					type: link?.type || 'dotted',
+				}));
+			}
+		}
 
 		// Year Page Settings
 		if (state?.yearPage?.disable !== undefined)

@@ -39,7 +39,8 @@ export type PageTemplate =
 	| 'notes-week-rows'
 	| 'notes-day'
 	| 'habit-year-by-week'
-	| 'habit-year-by-month';
+	| 'habit-year-by-month'
+	| 'links-page';
 
 export interface Collection {
 	/** The URL friendly slug used to link & id the collection */
@@ -72,4 +73,26 @@ export interface Collection {
 
 	/** The number of pages each item in the collection has */
 	numPagesPerItem?: number;
+}
+
+export interface LinksPage {
+	/** The URL friendly slug used to link & id the linkpage */
+	id: string;
+
+	/** The user-displayed name of the linkpage (used in navbar) */
+	name: string;
+
+	/** The number of pages for the linkPage */
+	numPages?: number;
+	/**
+	 * The type of collection. This is used to determine how to display the collection.
+	 * 'blank' - A collection of freeform items (useful for notes, etc.)
+	 * 'grid' - Each page in the collection will have a grid printed on it
+	 * 'dotted' - Each page in the collection will have a grid of dots printed on it
+	 * 'lined' - Each page in the collection will be printed with lines
+	 * 'habit-year' - A collection of checkboxes for each day of the year
+	 */
+	type: PageTemplate;
+
+	icon: string;
 }

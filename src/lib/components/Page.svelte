@@ -8,6 +8,7 @@
 	import CalendarYear from './CalendarYear.svelte';
 	import Grid from './Grid.svelte';
 	import HabitsYear from './HabitsYear.svelte';
+	import LinksPage from './LinksPage.svelte';
 	import NotesDay from './NotesDay.svelte';
 	import NotesQuarter from './NotesQuarter.svelte';
 	import NotesWeek from './NotesWeek.svelte';
@@ -109,6 +110,8 @@
 			{timeframe}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			groupBy="month" />
+	{:else if display === 'links-page'}
+		<LinksPage {settings} />
 	{:else if display.startsWith('lined')}
 		<Grid {display} columns={cols} lines={numLines} {aspectRatio} />
 	{:else if display.startsWith('numbered')}

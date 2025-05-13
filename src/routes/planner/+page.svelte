@@ -11,6 +11,8 @@
 	import CoverPage from './CoverPage.svelte';
 	import DayPage from './DayPage.svelte';
 	import HelpModal from './HelpModal.svelte';
+	import LinksPage from './LinksPage.svelte';
+	import LinksPages from './LinksPages.svelte';
 	import MonthPage from './MonthPage.svelte';
 	import QuarterPage from './QuarterPage.svelte';
 	import WeekPage from './WeekPage.svelte';
@@ -328,6 +330,81 @@
 							id="coverPageDarkBackground" />
 						<label for="coverPageDarkBackground">Dark Background</label>
 					</div>
+				{/if}
+
+				<h3>Links Page</h3>
+				<div class="checkbox">
+					<input
+						type="checkbox"
+						bind:checked={settings.linksPage.disable}
+						id="disableLinksPage" />
+					<label for="disableLinksPage">Disable Links Page</label>
+
+					<fieldset style="margin-top: 1rem;">
+						<label for="linkspage-height">Index page button part height</label>
+						<input
+							type="number"
+							placeholder="Number of Pages"
+							id="linkspage-height"
+							min="0.1"
+							max="1"
+							step="0.1"
+							bind:value={settings.linksPage.size} />
+					</fieldset>
+				</div>
+				{#if !settings.linksPage.disable}
+					{#each settings.linksPages as linksPage, i (linksPage.id)}
+						<fieldset>
+							<label for="">Link {i + 1}</label>
+							<input type="text" bind:value={linksPage.name} placeholder="Name" />
+
+							<fieldset style="margin-top: 1rem;">
+								<label for="linkspage-{linksPage.id}-numPages">Number of Pages</label>
+								<input
+									type="number"
+									placeholder="Number of Pages"
+									id="linkspage-{linksPage.id}-numPages"
+									min="1"
+									step="1"
+									bind:value={linksPage.numPages} />
+							</fieldset>
+							<fieldset style="margin-top: 1rem;">
+								<label for="linkspage-{linksPage.id}-numPages">Icon</label>
+								<input
+									type="text"
+									placeholder="Icon"
+									id="linkspage-{linksPage.id}-icon"
+									bind:value={linksPage.icon} />
+							</fieldset>
+							<fieldset style="margin-top: 1rem;">
+								<label for="collection-{linksPage.id}-type">Page Template</label>
+								<select id="collection-{linksPage.id}-type" bind:value={linksPage.type}>
+									{#each getAvailablePageTemplates('collection') as template}
+										<option value={template.value}>{template.name}</option>
+									{/each}
+								</select>
+							</fieldset>
+
+							<button
+								type="button"
+								onclick={() => settings.linksPages.splice(i, 1)}
+								style:color="var(--error)">
+								Remove Link
+							</button>
+						</fieldset>
+					{/each}
+					<button
+						type="button"
+						onclick={() =>
+							settings.linksPages.push({
+								name: 'Page',
+								id: `${Date.now()}`,
+								numPages: 1,
+								icon: '§				',
+								type: 'dotted',
+							})}>
+						Add New Link
+					</button>
 				{/if}
 
 				<h3>Yearly View</h3>
@@ -817,6 +894,8 @@
 	style:--font-weight-bold={font.boldWeight}
 	style:--font-weight-normal={font.normalWeight}
 	style:--font-weight-light={font.lightWeight}
+	style:--links-page-height="{settings.linksPage.size * 100}%"
+	style:--links-page-remaining-height="{100 - settings.linksPage.size * 100}%"
 	style:--text={settings.design.colorText}
 	style:--outline={settings.design.colorLines}
 	style:--dots-color={settings.design.colorDots}
@@ -833,6 +912,9 @@
 	{/if}
 	{#if !settings.coverPage.disable && loadPages}
 		<CoverPage {settings} />
+	{/if}
+	{#if !settings.linksPage.disable && loadPages}
+		<LinksPage {settings} />
 	{/if}
 	{#if !settings.yearPage.disable && loadPages}
 		{#each settings.years as year, i}
@@ -862,6 +944,11 @@
 	{#if loadPages}
 		{#each settings.collections as collection (collection.id)}
 			<CollectionPages {settings} {collection} />
+		{/each}
+	{/if}
+	{#if !settings.linksPage.disable && loadPages}
+		{#each settings.linksPages as linkPage (linkPage.id)}
+			<LinksPages {settings} {linkPage} />
 		{/each}
 	{/if}
 </main>
