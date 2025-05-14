@@ -184,13 +184,13 @@
 
 			.weekday {
 				font-size: 0.5em;
-				opacity: 0.85;
+				opacity: 0.95;
 				font-weight: var(--font-weight-normal);
 			}
 			.date {
 				font-size: 1em;
 				font-weight: var(--font-weight-normal);
-				opacity: 0.85;
+				opacity: 0.95;
 				line-height: 0.7em;
 				:global(.ordinal) {
 					font-size: 0.45em;

@@ -4,10 +4,9 @@
 
 	let { settings = {} as PlannerSettings } = $props();
 	const font = $derived(settings.design.font);
-	const height = $derived(settings.linksPage.size);
 </script>
 
-<div class="links-page">
+<div id="links-page-list" class="links-page">
 	<div class="links">
 		{#each settings.linksPages as link, i (link.name)}
 			<a href="#{link.id}">

@@ -70,7 +70,7 @@
 	{:else if display === 'agenda-day'}
 		<AgendaDay />
 	{:else if display === 'agenda-day-dotted'}
-		<AgendaDayDotted />
+		<AgendaDayDotted {settings} />
 	{:else if display === 'notes-quarter'}
 		<NotesQuarter
 			months={settings.months.filter(

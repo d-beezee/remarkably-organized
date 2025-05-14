@@ -1,12 +1,16 @@
-<script>
+<script lang="ts">
+	import type { PlannerSettings } from '$lib';
 	import Grid from './Grid.svelte';
+
+	let { settings = {} as PlannerSettings } = $props();
+	const font = $derived(settings.design?.font);
 </script>
 
 <div class="day">
 	<div class="generic">
 		<Grid display="dotted-small" />
 	</div>
-	<div class="hourly">
+	<div class="hourly" style:font-family="'{font}'">
 		{#each new Array(12) as _, i (i)}
 			<div class="hour-label col-1">
 				{i.toString().padStart(2, '0')}:00
@@ -62,8 +66,8 @@
 		&.col-2 {
 			grid-column: 3;
 		}
-		font-weight: var(--font-weight-light);
-		font-size: 0.7em;
+		font-weight: var(--font-weight-bold);
+		font-size: 0.95em;
 		color: var(--text-low);
 		margin-top: -0.5rem;
 		small {

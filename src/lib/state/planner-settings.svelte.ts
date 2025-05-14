@@ -181,6 +181,7 @@ export class PlannerSettings {
 	readonly linksPage = new (class LinksPageSettings {
 		disable = $state(false);
 		size = $state(0.5);
+		showFullLinks = $state(false);
 	})();
 
 	linksPages = $state([
@@ -508,7 +509,7 @@ export class PlannerSettings {
 	}
 
 	/** Serializes the data into a valid JSON format */
-	private serialize() {
+	public serialize() {
 		return {
 			design: {
 				aspectRatio: this.design.aspectRatio,
@@ -542,6 +543,8 @@ export class PlannerSettings {
 			coverPage: {
 				disable: this.coverPage.disable,
 				title: this.coverPage.title,
+				name: this.coverPage.name,
+				email: this.coverPage.email,
 				showCollectionLinks: this.coverPage.showCollectionLinks,
 				darkBackground: this.coverPage.darkBackground,
 				showCurrentDay: this.coverPage.showCurrentDay,
@@ -554,6 +557,8 @@ export class PlannerSettings {
 			},
 			linksPage: {
 				disable: this.linksPage.disable,
+				size: this.linksPage.size,
+				showFullLinks: this.linksPage.showFullLinks,
 			},
 			quarterPage: {
 				disable: this.quarterPage.disable,
@@ -652,6 +657,9 @@ export class PlannerSettings {
 			this.coverPage.disable = state.coverPage.disable;
 		if (state?.coverPage?.title !== undefined)
 			this.coverPage.title = state.coverPage.title;
+		if (state?.coverPage?.name !== undefined) this.coverPage.name = state.coverPage.name;
+		if (state?.coverPage?.email !== undefined)
+			this.coverPage.email = state.coverPage.email;
 		if (state?.coverPage?.showCollectionLinks !== undefined)
 			this.coverPage.showCollectionLinks = state.coverPage.showCollectionLinks;
 		if (state?.coverPage?.darkBackground !== undefined)
@@ -665,6 +673,10 @@ export class PlannerSettings {
 		// Links Page Settings
 		if (state?.linksPage?.disable !== undefined)
 			this.linksPage.disable = state.linksPage.disable;
+		if (state?.linksPage?.size !== undefined) this.linksPage.size = state.linksPage.size;
+		if (state?.linksPage?.showFullLinks !== undefined)
+			this.linksPage.showFullLinks = state.linksPage.showFullLinks;
+
 		if (!state?.linksPage?.disable) {
 			// Links Page
 			if (state?.linksPages !== undefined) {
@@ -759,6 +771,15 @@ export class PlannerSettings {
 				numIndexPages: collection?.numIndexPages ?? 1,
 				numPagesPerItem: collection?.numPagesPerItem ?? 1,
 			}));
+		}
+	}
+
+	set(serializedSettings: string) {
+		try {
+			const settings = JSON.parse(serializedSettings);
+			this.deserialize(settings);
+		} catch (e) {
+			toast.error(`Couldn't parse settings. Invalid JSON.`);
 		}
 	}
 }

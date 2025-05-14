@@ -342,6 +342,12 @@
 						id="disableLinksPage" />
 					<label for="disableLinksPage">Disable Links Page</label>
 
+					<input
+						type="checkbox"
+						bind:checked={settings.linksPage.showFullLinks}
+						id="showFullLinks" />
+					<label for="showFullLinks">Show full links</label>
+
 					<fieldset style="margin-top: 1rem;">
 						<label for="linkspage-height">Index page button part height</label>
 						<input
@@ -877,7 +883,29 @@
 			{/if}
 		</form>
 		<div class="actions">
-			<button class="export" onclick={() => window.print()}>Print to PDF</button>
+			<div>
+				<button class="export" onclick={() => window.print()}>Print to PDF</button>
+			</div>
+			<div class="import-export">
+				<button
+					class="export-json"
+					onclick={() => {
+						const serialized = settings.serialize();
+						// copy to clipboard
+						navigator.clipboard.writeText(JSON.stringify(serialized));
+					}}>
+					Copy config
+				</button>
+				<button
+					class="import-json"
+					onclick={() => {
+						const result = window.prompt('Insert the config');
+						if (!result) return;
+						settings.set(result);
+					}}>
+					Import config
+				</button>
+			</div>
 		</div>
 	</div>
 {/if}
@@ -1081,16 +1109,26 @@
 		}
 	}
 	.actions {
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
 		position: sticky;
 		bottom: -1rem;
 		background-color: white;
 		width: 100%;
 		padding: 1rem 0;
+		.import-export {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 1rem;
+		}
 	}
+	button.import-json,
+	button.export-json,
 	button.export {
 		background-color: var(--action);
 		color: var(--action-text);
-		width: 100%;
 		border-radius: 999px;
 		padding: 0.75rem 1rem;
 		font-size: 1.25rem;
@@ -1098,6 +1136,10 @@
 			background-color: var(--action-high);
 			color: var(--action-text-high);
 		}
+	}
+
+	button.export {
+		width: 100%;
 	}
 	.collections {
 		display: flex;

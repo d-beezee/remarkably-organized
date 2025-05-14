@@ -7,7 +7,7 @@
 	let { day = {} as Day, settings = {} as PlannerSettings } = $props();
 </script>
 
-<article id={day.id} use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
+<article id="links-page-index" use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
 	<SideNav tabs={settings.dayPage.sideNavDisplay} {settings} timeframe={day}></SideNav>
 	<TopNav {settings} timeframe={day} />
 	<Page {settings} display="links-page" />

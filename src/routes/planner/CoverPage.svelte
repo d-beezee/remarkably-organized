@@ -121,10 +121,14 @@
 						<span class="separator">/</span>
 					{/if}
 				{/each}
+				{#if !settings.linksPage.disable && settings.linksPages.length > 0 && !settings.linksPage.showFullLinks}
+					<span class="separator">/</span>
+					<a href="#links-page-index">Altro</a>
+				{/if}
 			</div>
 		{/if}
 
-		{#if !settings.linksPage.disable && settings.linksPages.length > 0}
+		{#if !settings.linksPage.disable && settings.linksPages.length > 0 && settings.linksPage.showFullLinks}
 			<div class="links pagelinks">
 				{#each settings.linksPages as linkpage, i (linkpage.id)}
 					<a href="#{linkpage.id}">{linkpage.icon} {linkpage.name}</a>
